@@ -1,0 +1,50 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Run EXE (release\\jwAlbums)",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/.vscode/run_exe.py",
+            "args": ["release/jwAlbums/jwAlbums.exe"],
+            "python": "${workspaceFolder}/.venv/Scripts/python.exe",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "subProcess": false,
+            "justMyCode": true
+        },
+        {
+            "name": "Build + Run EXE",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/.vscode/run_exe.py",
+            "args": ["release/jwAlbums/jwAlbums.exe"],
+            "python": "${workspaceFolder}/.venv/Scripts/python.exe",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "subProcess": false,
+            "preLaunchTask": "build exe"
+        },
+        {
+            "name": "Run CLI EXE: smoke test",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/.vscode/run_exe.py",
+            "args": ["build/dist/jwAlbumsCLI.exe", "--smoke"],
+            "python": "${workspaceFolder}/.venv/Scripts/python.exe",
+            "cwd": "${workspaceFolder}",
+            "console": "integratedTerminal",
+            "subProcess": false
+        },
+        {
+            "name": "Debug from source (src/main.py)",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/src/main.py",
+            "python": "${workspaceFolder}/.venv/Scripts/python.exe",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "justMyCode": true
+        }
+    ]
+}

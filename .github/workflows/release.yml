@@ -1,0 +1,76 @@
+# Copyright (c) 2026 justinwwk (https://github.com/justinwwk)
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+# Builds jwAlbums on GitHub's Windows machine (free for public repos).
+#   Push a version tag (git tag v1.2.3 && git push origin v1.2.3):
+#     tests, builds, and creates a DRAFT GitHub Release with the zip and its SHA-256 checksum.
+#     Check the draft on GitHub, then click "Publish release".
+#   Actions tab > Release > "Run workflow": the same build, but the zip is only kept as a
+#     downloadable artifact of that run; no release is made.
+name: Release
+
+on:
+  push:
+    tags: ["v*.*.*"]
+  workflow_dispatch:
+
+permissions:
+  contents: write          # needed to create the release
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+          architecture: x64
+
+      - name: Create the environment from the hash-locked requirements
+        shell: cmd
+        run: |
+          python -m venv .venv || exit /b 1
+          .venv\Scripts\python.exe -m pip install --require-hashes --no-deps -r requirements-lock.txt
+
+      - name: Read the version and check it matches the tag
+        id: version
+        shell: pwsh
+        run: |
+          $v = .venv\Scripts\python.exe -c "import sys; sys.path.insert(0, 'src'); from app.version import __version__; print(__version__)"
+          if (-not $v) { throw "Could not read the version from src/app/version.py" }
+          if ($env:GITHUB_REF_TYPE -eq "tag" -and $env:GITHUB_REF_NAME -ne "v$v") {
+            throw "Tag $env:GITHUB_REF_NAME does not match src/app/version.py ($v). Make them the same."
+          }
+          "version=$v" >> $env:GITHUB_OUTPUT
+
+      - name: Test and build (build.bat)
+        shell: cmd
+        run: build.bat
+
+      - name: Write the SHA-256 checksum
+        shell: pwsh
+        run: |
+          $name = "jwAlbums-${{ steps.version.outputs.version }}.zip"
+          $hash = (Get-FileHash "release/$name" -Algorithm SHA256).Hash.ToLower()
+          Set-Content "release/$name.sha256" "$hash  $name" -Encoding ascii
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: jwAlbums-${{ steps.version.outputs.version }}
+          path: |
+            release/jwAlbums-${{ steps.version.outputs.version }}.zip
+            release/jwAlbums-${{ steps.version.outputs.version }}.zip.sha256
+          if-no-files-found: error
+
+      - name: Create the draft GitHub Release
+        if: github.ref_type == 'tag'
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          gh release create $env:GITHUB_REF_NAME `
+            "release/jwAlbums-$env:VERSION.zip" "release/jwAlbums-$env:VERSION.zip.sha256" `
+            --draft --title "jwAlbums $env:VERSION" --generate-notes

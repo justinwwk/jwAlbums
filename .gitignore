@@ -1,0 +1,27 @@
+# Python environment and caches
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Build output (build.bat): intermediate files and the user download
+build/
+release/
+dist/
+
+# Real-device test output (CLI --acceptance writes test_export\ in the current folder)
+test_export/
+
+# Never commit anything copied from an iPhone
+*.sqlite
+*.sqlite-wal
+*.sqlite-shm
+*.HEIC
+*.heic
+*.JPG
+*.jpg
+*.PNG
+*.png
+*.MOV
+*.mov
+*.log

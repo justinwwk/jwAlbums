@@ -1,0 +1,10 @@
+# Runtime dependency (official PyPI package only - never a GitHub URL, fork or binary).
+# Official 11.49.1 wheel SHA-256: 351add0a5c1f988b5f6f8894dddeafe444a82dcae3d23a2df2c07608ea78a7ca
+pymobiledevice3==11.49.1
+
+# Development / packaging
+pytest==9.2.0
+pyinstaller==6.22.3
+
+# For reproducible, hash-verified installs use requirements-lock.txt instead:
+#   python -m pip install --require-hashes --no-deps -r requirements-lock.txt
