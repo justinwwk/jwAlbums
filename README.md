@@ -13,6 +13,23 @@ iPhone Photos                 Windows
 It only reads from the iPhone and never writes, deletes or changes anything on it. It
 doesn't use iCloud, doesn't make a backup, and never connects to the internet.
 
+## Why I made it
+
+All I wanted was a copy of my iPhone photos on my Windows PC, in the same albums I had
+already sorted them into on the phone.
+
+iTunes and Apple Devices only sync photos *to* the iPhone, not back. Windows' own import
+copies the files but ignores your albums. iCloud for Windows goes through the cloud, and a
+big library needs a paid iCloud plan. The paid apps that can do it are
+bloated with features I'd never use (phone backups, music, messages, device management),
+and many want a subscription.
+
+jwAlbums does one thing: it copies the albums you pick into folders. It's free and open
+source, with no account, no subscription, no ads and no cloud. It's a single EXE you unzip
+and run; the only other thing it needs is Apple's free USB driver.
+
+— [justinwwk](https://github.com/justinwwk)
+
 ## What you need
 
 - Windows 10 or 11 (64-bit)
@@ -21,6 +38,19 @@ doesn't use iCloud, doesn't make a backup, and never connects to the internet.
 - A USB cable that carries data (some cables only charge). Any USB port or hub works.
   USB 2 is slower; an iPhone 15 Pro or later copies fastest with a USB 3 (10 Gb/s) cable
   in a USB 3 port.
+- **The full-size photos on the iPhone.** jwAlbums copies only what is stored on the
+  iPhone. If you use iCloud Photos with **Optimize iPhone Storage**, many full-size
+  originals are only in iCloud. Before exporting, choose **Download and Keep Originals**
+  in Settings > Apps > Photos (Settings > Photos on iOS 17 and earlier) and wait for the
+  download to finish. The iPhone needs enough free space for them.
+
+## Windows warning
+
+The EXE isn't code-signed, so the first time you run it Windows may say **Windows protected
+your PC**. Click **More info**, then **Run anyway**.
+
+If you'd rather build it yourself, run `build.bat` (needs 64-bit Python 3.12). It is the same
+script GitHub uses to build the download, and the EXE ends up in `release\jwAlbums\`.
 
 ## Using it
 

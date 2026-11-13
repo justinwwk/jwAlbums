@@ -14,6 +14,11 @@ WHAT YOU NEED
   iPhone.
 - A USB cable that carries data (some cables only charge). Any USB port or hub works;
   USB 3 is faster than USB 2.
+- The full-size photos on the iPhone. jwAlbums copies only what is stored on the iPhone.
+  If you use iCloud Photos with "Optimize iPhone Storage", many full-size originals are
+  only in iCloud. Before exporting, choose "Download and Keep Originals" in
+  Settings > Apps > Photos (Settings > Photos on iOS 17 and earlier) and wait for the
+  download to finish. The iPhone needs enough free space for them.
 
 This folder is the whole app and there is nothing to install. Unzip it anywhere and run
 jwAlbums.exe.
